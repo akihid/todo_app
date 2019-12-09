@@ -18,3 +18,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/listings/create', 'ListingController@create')->name('listings.create');
+Route::post('/listings/create', 'ListingController@store')->name('listings.store');
+  // Todo：　確認用のためタスク一覧作成時削除する
+Route::get('/listings', 'ListingController@index')->name('listings.index');
