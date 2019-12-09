@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Listing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\ListingRequest;
 
 class ListingController extends Controller
 {
@@ -22,12 +23,12 @@ class ListingController extends Controller
     return view('listings/create'); 
   }
 
-  public function store(Request $request)
+  public function store(ListingRequest $request)
   {
       $listing = new Listing();
       $listing->title = $request->title;
 
       Auth::user()->listings()->save($listing);
-      return redirect()->route('/');
+      return redirect()->route('listings.index');
   }
 }
