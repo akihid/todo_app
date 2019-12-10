@@ -13,7 +13,7 @@ class ListingController extends Controller
   // Todo：確認用のためタスク一覧作成時削除する
   public function index()
   { 
-    $listings = Listing::all();
+    $listings = Auth::user()->listings()->get();
 
     return view('listings.index', compact('listings')); 
   }
