@@ -8,10 +8,10 @@
           <div class="card-header">リスト追加</div>
           <div class="card-body">
             @include('errors.form_errors')
-            
-            <form action="{{ route('listings.store') }}" method="post">
+            <form action="{{ route('listings.update', ['listing' => $listing]) }}" method="post">
               @csrf
-              @include('listings._form', ['title' => '', 'submitBtn' => '作成'])
+              @method('PATCH')
+              @include('listings._form', ['title' => $listing->title, 'submitBtn' => '修正'])
             </form>
           </div>
         </nav>
