@@ -15,6 +15,8 @@ class ListingsTableSeeder extends Seeder
      */
     public function run()
     {
+      DB::table('listings')->delete();
+
       $titles = ['趣味', '仕事', 'その他'];
       $user = User::first();
 
