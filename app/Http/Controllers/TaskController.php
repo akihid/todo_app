@@ -24,11 +24,9 @@ class TaskController extends Controller
       
       // リストに紐づくタスクを取得
       $tasks = $listing->tasks()->get();
-      return view('tasks/index', [
-          'listings' => $listings,
-          'current_listing' => $listing,
-          'tasks' => $tasks,
-      ]);
+      $current_listing = $listing;
+      
+      return view('tasks/index', compact('listings', 'current_listing', 'tasks'));
     }
 
     /**
@@ -38,9 +36,7 @@ class TaskController extends Controller
      */
     public function create(Listing $listing)
     {
-      return view('tasks/create', [
-        'listing' => $listing,
-      ]);
+      return view('tasks/create', compact('listing'));
     }
 
     /**
@@ -59,9 +55,7 @@ class TaskController extends Controller
 
       $listing->tasks()->save($task);
 
-      return redirect()->route('tasks.index', [
-          'listing' => $listing,
-      ]);
+      return redirect()->route('tasks.index', compact('listing'));
     }
 
     /**
@@ -78,15 +72,13 @@ class TaskController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Listing  $listing
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
     public function edit(Listing $listing, Task $task)
     {
-        return view('tasks/edit', [
-          'task' => $task,
-          'listing' => $listing,
-        ]);
+      return view('tasks/edit', compact('task', 'listing'));
     }
 
     /**
@@ -105,19 +97,20 @@ class TaskController extends Controller
       $task->start_line = $request->start_line;
       $task->dead_line = $request->dead_line;
       $task->save();
-      return redirect()->route('tasks.index', [
-          'listing' => $listing,
-      ]);
+      return redirect()->route('tasks.index', compact('listing'))->with('message', '更新しました');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param Listing $listing
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Listing $listing, Task $task)
     {
-        //
+      $task->delete();
+
+      return redirect()->route('tasks.index', compact('listing'))->with('message', '削除しました');
     }
 }

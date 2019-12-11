@@ -10,9 +10,9 @@ class Task extends Model
   protected $fillable = ['listing_id', 'title', 'content', 'start_line', 'dead_line', 'status'];
 
   const STATUS = [
-    1 => [ 'label' => ' 未着手', 'class' => 'label-danger' ],
-    2 => [ 'label' => ' 着手中', 'class' => 'label-info' ],
-    3 => [ 'label' => ' 完了', 'class' => 'label-succes' ],
+    1 => [ 'label' => ' 未着手', 'class' => 'badge badge-danger' ],
+    2 => [ 'label' => ' 着手中', 'class' => 'badge badge-info' ],
+    3 => [ 'label' => ' 完了', 'class' => 'badge badge-success' ],
   ];
 
   /**
@@ -21,13 +21,8 @@ class Task extends Model
      */
     public function getStatusLabelAttribute()
     {
-        // 状態値
-        $status = $this->attributes['status'];
-        // 定義されていなければ空文字を返す
-        if (!isset(self::STATUS[$status])) {
-            return '';
-        }
-        return self::STATUS[$status]['label'];
+      $status = $this->attributes['status'];
+      return self::STATUS[$status]['label'];
     }
     /**
      * 状態を表すHTMLクラス
@@ -35,13 +30,8 @@ class Task extends Model
      */
     public function getStatusClassAttribute()
     {
-        // 状態値
-        $status = $this->attributes['status'];
-        // 定義されていなければ空文字を返す
-        if (!isset(self::STATUS[$status])) {
-            return '';
-        }
-        return self::STATUS[$status]['class'];
+      $status = $this->attributes['status'];
+      return self::STATUS[$status]['class'];
     }
 
     /**

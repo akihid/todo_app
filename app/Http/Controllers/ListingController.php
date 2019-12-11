@@ -37,7 +37,7 @@ class ListingController extends Controller
   public function store(ListingRequest $request)
   {
     $listing = Auth::user()->listings()->create($request->validated());
-    return redirect()->route('listings.index');
+    return redirect()->route('listings.index')->with('message', '作成しました');;
   }
 
   /**
@@ -65,7 +65,7 @@ class ListingController extends Controller
    * Update the specified resource in storage.
    *
    * @param  \App\Http\Requests\ListingRequest  $request
-   * @param  Board  $board
+   * @param  Listing  $listing
    * @return \Illuminate\Http\Response
    */
   public function update(ListingRequest $request, Listing $listing)
@@ -78,7 +78,7 @@ class ListingController extends Controller
   /**
    * Remove the specified resource from storage.
    *
-   * @param  Listing  $board
+   * @param  Listing  $list
    * @return \Illuminate\Http\Response
    */
   public function destroy(Listing $listing)
