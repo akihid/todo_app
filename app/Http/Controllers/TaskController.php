@@ -81,21 +81,33 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Listing $listing, Task $task)
     {
-        //
+        return view('tasks/edit', [
+          'task' => $task,
+          'listing' => $listing,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Listing $listing
+     * @param Task $task
+     * @param TaskRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Listing $listing, Task $task, TaskRequest $request)
     {
-        //
+      $task->title = $request->title;
+      $task->content = $request->content;
+      $task->status = $request->status;
+      $task->start_line = $request->start_line;
+      $task->dead_line = $request->dead_line;
+      $task->save();
+      return redirect()->route('tasks.index', [
+          'listing' => $listing,
+      ]);
     }
 
     /**
