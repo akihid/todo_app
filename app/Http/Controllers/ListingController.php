@@ -36,10 +36,7 @@ class ListingController extends Controller
    */
   public function store(ListingRequest $request)
   {
-    $listing = new Listing();
-    $listing->title = $request->title;
-
-    Auth::user()->listings()->save($listing);
+    $listing = Auth::user()->listings()->create($request->validated());
     return redirect()->route('listings.index');
   }
 

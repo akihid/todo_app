@@ -23,10 +23,8 @@ class TasksTableSeeder extends Seeder
       $faker = Faker::create('ja_JP');
 
       foreach ($listings as $listing) {
-        $user = App\User::inRandomOrder()->first();
         foreach (range(1, 3) as $num) {
           Task::create([
-            'user_id' => $user->id,
             'listing_id' => $listing->id,
             'title' => $faker->realText(10),
             'content' => $faker->realText(30),

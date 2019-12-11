@@ -2,18 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Listing;
+use App\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\TaskRequest;
 
-class TasksController extends Controller
+
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param  Listing $listing
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Listing $listing)
     {
-        //
+      
+      $listings = Auth::user()->listings()->get();
+      
+      // リストに紐づくタスクを取得
+      $tasks = $listing->tasks()->get();
+      return view('tasks/index', [
+          'listings' => $listings,
+          'current_listing' => $listing,
+          'tasks' => $tasks,
+      ]);
     }
 
     /**
@@ -21,20 +36,32 @@ class TasksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Listing $listing)
     {
-        //
+      return view('tasks/create', [
+        'listing' => $listing,
+      ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\TaskRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Listing $listing, TaskRequest $request)
     {
-        //
+      $task = new Task();
+      $task->title = $request->title;
+      $task->content = $request->content;
+      $task->start_line = $request->start_line;
+      $task->dead_line = $request->dead_line;
+
+      $listing->tasks()->save($task);
+
+      return redirect()->route('tasks.index', [
+          'listing' => $listing,
+      ]);
     }
 
     /**
