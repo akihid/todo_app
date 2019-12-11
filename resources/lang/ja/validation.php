@@ -150,6 +150,9 @@ return [
       'email' => 'メールアドレス',
       'password' => 'パスワード',
       'title' => 'タイトル',
+      'content' => '内容',
+      'start_line' => '開始日',
+      'dead_line' => '期限',
     ],
 
 ];

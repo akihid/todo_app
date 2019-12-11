@@ -13,7 +13,7 @@ class TaskRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+      return true;
     }
 
     /**
@@ -23,10 +23,17 @@ class TaskRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-          'title' => 'required|max:50',
-          'start_line' => 'required',
-          'dead_line' => 'required',
-        ];
+      return [
+        'title' => 'required|max:50',
+        'start_line' => 'required||after_or_equal:today',
+        'dead_line' => 'required|after_or_equal:start_line',
+      ];
+    }
+
+    public function messages()
+    {
+      return [
+        'start_line.after_or_equal' => ':attribute には今日以降の日付を入力してください。',
+      ]; 
     }
 }
