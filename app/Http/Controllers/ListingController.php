@@ -37,7 +37,7 @@ class ListingController extends Controller
   public function store(ListingRequest $request)
   {
     $listing = Auth::user()->listings()->create($request->validated());
-    return redirect()->route('listings.index')->with('message', '作成しました');;
+    return redirect()->route('tasks.index', compact('listing'))->with('message', '作成しました');;
   }
 
   /**
@@ -72,7 +72,7 @@ class ListingController extends Controller
   {
     $listing->update($request->validated());
 
-    return redirect()->route('listings.index')->with('message', '更新しました');
+    return redirect()->route('tasks.index', compact('listing'))->with('message', '更新しました');
   }
 
   /**
@@ -85,6 +85,8 @@ class ListingController extends Controller
   {
     $listing->delete();
 
-    return redirect()->route('listings.index')->with('message', '削除しました');
+    $listing = Auth::user()->listings()->get()->first();
+
+    return redirect()->route('tasks.index', compact('listing'))->with('message', '削除しました');
   }
 }
