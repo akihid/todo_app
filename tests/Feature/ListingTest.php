@@ -2,11 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\User;
+use App\Listing;
+use App\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use App\User;
-use App\Listing;
 
 class ListingTest extends TestCase
 {
@@ -31,7 +32,7 @@ class ListingTest extends TestCase
   public function get_edit_listing_path()
   {
     $user = factory(User::class)->create();
-    $listing = Listing::create([
+    $listing = factory(Listing::class)->create([
       'title' => 'テストタスク',
       'user_id' => $user->id,
     ]);
@@ -53,7 +54,7 @@ class ListingTest extends TestCase
     $response = $this->actingAs($user)->post(route('listings.store'), $data);
 
     $response->assertStatus(302)
-            ->assertRedirect('/listings');
+              ->assertRedirect(route('tasks.index', ['listing' => $user->listings()->get()->first()]));
 
     $this->assertDatabaseHas('listings', $data);
   }
@@ -68,14 +69,14 @@ class ListingTest extends TestCase
       'title' => str_repeat('a', 20),
     ];
     $user = factory(User::class)->create();
-    $listing = Listing::create([
+    $listing = factory(Listing::class)->create([
       'title' => 'テストタスク',
       'user_id' => $user->id,
     ]);
     $response = $this->actingAs($user)->patch(route('listings.update', ['listing'=>$listing, 'title' => str_repeat('a', 20)]));
 
     $response->assertStatus(302)
-              ->assertRedirect('/listings');
+              ->assertRedirect(route('tasks.index', ['listing' => $user->listings()->get()->first()]));
 
     $this->assertDatabaseHas('listings', $data);
   }
@@ -91,14 +92,20 @@ class ListingTest extends TestCase
       'title' => 'テストタスク'
     ];
     $user = factory(User::class)->create();
-    $listing = Listing::create([
+    $listing = factory(Listing::class)->create([
       'title' => 'テストタスク',
       'user_id' => $user->id,
     ]);
-    $response = $this->actingAs($user)->delete(route('listings.destroy', ['listing'=>$listing]));
+
+    factory(Listing::class)->create([
+      'title' => '確認タスク',
+      'user_id' => $user->id,
+    ]);
+
+    $response = $this->actingAs($user)->delete(route('listings.destroy', ['listing'=> $listing]));
 
     $response->assertStatus(302)
-              ->assertRedirect('/listings');
+              ->assertRedirect(route('tasks.index', ['listing' => $user->listings()->get()->first()]));
 
     $this->assertDatabaseMissing('listings', $data);
   }
