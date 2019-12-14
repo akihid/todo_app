@@ -19,3 +19,13 @@ body {
   font-weight: 400;
   height: 100%;
 }
+
+a {
+  color: black;
+}
+
+a:hover {
+  opacity: 0.7;
+  color: black;
+  font-weight: bold;
+}

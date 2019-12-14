@@ -23,9 +23,12 @@ class TaskRequest extends FormRequest
      */
     public function rules()
     {
+      // 更新時には当日参照しない
+      ($this->isMethod('post') === true ) ?  $start_line_rule = "required||after_or_equal:today" : $start_line_rule = "required";
+
       return [
         'title' => 'required|max:50',
-        'start_line' => 'required||after_or_equal:today',
+        'start_line' => $start_line_rule,
         'dead_line' => 'required|after_or_equal:start_line',
       ];
     }

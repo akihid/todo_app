@@ -11369,3 +11369,14 @@ body {
   height: 100%;
 }
 
+a {
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+  opacity: 0.7;
+  color: black;
+  font-weight: bold;
+}
+

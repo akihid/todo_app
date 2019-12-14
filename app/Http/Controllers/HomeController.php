@@ -25,6 +25,6 @@ class HomeController extends Controller
         return redirect()->route('tasks.index', compact('listing'));
       }
       // 非ログイン時
-      return view('/');
+      return view('/home');
     }
 }

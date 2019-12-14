@@ -10,10 +10,14 @@ class Task extends Model
   protected $fillable = ['listing_id', 'title', 'content', 'start_line', 'dead_line', 'status'];
 
   const STATUS = [
-    1 => [ 'label' => ' 未着手', 'class' => 'badge badge-danger', 'color' => '#ED8077' ],
-    2 => [ 'label' => ' 着手中', 'class' => 'badge badge-info text-white', 'color' => '#4388C5' ],
-    3 => [ 'label' => ' 完了', 'class' => 'badge badge-success', 'color' => '#B0BD3C' ],
+    1 => [ 'label' => ' 未着手', 'class' => 'badge badge-danger', 'color' => '#e3342f' ],
+    2 => [ 'label' => ' 着手中', 'class' => 'badge badge-info text-white', 'color' => '#6cb2eb' ],
+    3 => [ 'label' => ' 完了', 'class' => 'badge badge-success', 'color' => '#38c172' ],
   ];
+
+  public function listing() {
+    return $this->belongsTo('App\Listing');
+  }
 
   /**
    * 状態のラベルを返す
@@ -65,6 +69,14 @@ class Task extends Model
   }
 
   /**
+   * 期限が本日より過ぎているか
+   * @return boolean
+   */
+  public function getIsDeadlineOverTodayAttribute()
+  {
+    return (Carbon::today() > $this->attributes['dead_line'] and $this->attributes['status'] != 3)  ? true : false;
+  }
+  /**
    * タイトルlike検索
    * @return query
    */
@@ -72,7 +84,6 @@ class Task extends Model
     if(!empty($value)) {
       $query->where('title', 'like', '%'.$value.'%');
     }
-    // dd($query);
   }
 
   /**
@@ -97,9 +108,5 @@ class Task extends Model
     if(!empty($end)) {
       $query->where('dead_line', '<=', $end);
     }
-  }
-
-  public function listing() {
-    return $this->belongsTo('App\Listing');
   }
 }
