@@ -33,9 +33,9 @@
                   @endforeach
                 </select>
               </div>
-              <div class="form-group">
-                <label for="search_deadline">期限</label>
-                <input type="date" class="form-control" name="search_deadline_start" id="search_deadline_start" value = "{{ $search_params['search_deadline_start'] }}" />
+              <label for="search_deadline">期限</label>
+              <div class="form-group form-inline">
+                <input type="date" class="form-control" name="search_deadline_start" id="search_deadline_start" value = "{{ $search_params['search_deadline_start'] }}" />~
                 <input type="date" class="form-control" name="search_deadline_end" id="search_deadline_end" value = "{{ $search_params['search_deadline_end'] }}" />
               </div>
                 <button type="submit" class="btn btn-primary">検索</button>
@@ -60,12 +60,7 @@
                   </td>
                   <td>{{ $task->formatted_dead_line }}</td>
                   <td>
-                    <form method="post" action="{{ route('tasks.destroy', ['listing' => $task->listing, 'task'=>$task]) }}">
-                      <a href="{{ route('tasks.edit', ['listing' => $task->listing, 'task' => $task]) }}">編集</a>
-                      @csrf
-                      @method('DELETE')
-                      <input type="submit" value="削除" class="btn btn-danger btn-sm" onclick='return confirm("本当に削除しますか？");'>
-                    </form>
+                    <a href="{{ route('tasks.show', ['listing' => $task->listing, 'task' => $task]) }}">詳細</a>
                   </td>
                 </tr>
               @endforeach

@@ -18,7 +18,7 @@
               </div>
               <div class="form-group">
                 <label for="content">概要</label>
-                <input type="text" class="form-control" name="content" id="content" value="{{ old('content', $task->content) }}" />
+                <textarea name="content" id="content" cols="20" rows="5" class="form-control">{{ old('content', $task->content) }}</textarea>
               </div>
               <div class="form-group">
                 <label for="start_line">開始日</label>
@@ -38,8 +38,18 @@
                   @endforeach
                 </select>
               </div>
-              <div class="text-right">
-                <button type="submit" class="btn btn-primary">送信</button>
+              <div class="form-group">
+                <label for="title">設定リスト</label>
+                <select name="list" id="list" class="form-control">
+                  @foreach($listings as $list)
+                    <option value="{{ $list->id }}" @if($list === $listing) selected  @endif >
+                      {{ $list->title }}
+                    </option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary">更新</button>
               </div>
             </form>
           </div>

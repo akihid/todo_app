@@ -34,12 +34,7 @@ class TaskController extends Controller
       $search_params['search_status']= $request->input('search_status');
       $search_params['search_deadline_start']= $request->input('search_deadline_start');
       $search_params['search_deadline_end']= $request->input('search_deadline_end');
-      // $search_title = $request->input('search_title');
-      // $search_status = $request->input('search_status');
-      // $search_deadline_start = $request->input('search_deadline_start');
-      // $search_deadline_end= $request->input('search_deadline_end');
-      
-      // dd($search_params);
+
       // リストに紐づくタスクを取得
       $tasks = $listing->tasks()
                         ->SearchTitle($search_params['search_title'])
@@ -47,7 +42,6 @@ class TaskController extends Controller
                         ->SearchDeadline($search_params['search_deadline_start'], $search_params['search_deadline_end'])
                         ->get();
 
-                        // dd($search_params);
       return view('tasks/index', compact('listings', 'current_listing', 'tasks', 'search_params'));
     }
 
@@ -83,12 +77,13 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Listing  $listing
+     * @param  Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Listing $listing, Task $task)
     {
-        //
+      return view('tasks/show', compact('task', 'listing'));
     }
 
     /**
@@ -100,7 +95,8 @@ class TaskController extends Controller
      */
     public function edit(Listing $listing, Task $task)
     {
-      return view('tasks/edit', compact('task', 'listing'));
+      $listings = Auth::user()->listings()->get();
+      return view('tasks/edit', compact('task', 'listing', 'listings'));
     }
 
     /**
@@ -113,6 +109,7 @@ class TaskController extends Controller
      */
     public function update(Listing $listing, Task $task, TaskRequest $request)
     {
+      $task->listing_id = $request->list;
       $task->title = $request->title;
       $task->content = $request->content;
       $task->status = $request->status;

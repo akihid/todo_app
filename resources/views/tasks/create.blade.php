@@ -17,7 +17,7 @@
               </div>
               <div class="form-group">
                 <label for="content">概要</label>
-                <input type="text" class="form-control" name="content" id="content" value="{{ old('content') }}" />
+                <textarea name="content" id="content" cols="20" rows="5" class="form-control">{{ old('content') }}</textarea>
               </div>
               <div class="form-group">
                 <label for="start_line">開始日</label>

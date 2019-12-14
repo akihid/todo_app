@@ -34,6 +34,16 @@ class Task extends Model
     return self::STATUS[$status]['class'];
   }
 
+/**
+ * 整形した開始日
+ * @return string
+ */
+  public function getFormattedStartLineAttribute()
+  {
+    return Carbon::createFromFormat('Y-m-d', $this->attributes['start_line'])
+      ->format('Y年m月d日');
+  }
+
   /**
    * 整形した期限日
    * @return string
