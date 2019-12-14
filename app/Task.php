@@ -16,33 +16,68 @@ class Task extends Model
   ];
 
   /**
-     * 状態のラベル
-     * @return string
-     */
-    public function getStatusLabelAttribute()
-    {
-      $status = $this->attributes['status'];
-      return self::STATUS[$status]['label'];
+   * 状態のラベル
+   * @return string
+   */
+  public function getStatusLabelAttribute()
+  {
+    $status = $this->attributes['status'];
+    return self::STATUS[$status]['label'];
+  }
+  /**
+   * 状態を表すHTMLクラス
+   * @return string
+   */
+  public function getStatusClassAttribute()
+  {
+    $status = $this->attributes['status'];
+    return self::STATUS[$status]['class'];
+  }
+
+  /**
+   * 整形した期限日
+   * @return string
+   */
+  public function getFormattedDeadLineAttribute()
+  {
+    return Carbon::createFromFormat('Y-m-d', $this->attributes['dead_line'])
+      ->format('Y年m月d日');
+  }
+
+  /**
+   * タイトルlike検索
+   * @return query
+   */
+  public function scopeSearchTitle($query, $value) {
+    if(!empty($value)) {
+      $query->where('title', 'like', '%'.$value.'%');
     }
-    /**
-     * 状態を表すHTMLクラス
-     * @return string
-     */
-    public function getStatusClassAttribute()
-    {
-      $status = $this->attributes['status'];
-      return self::STATUS[$status]['class'];
+    // dd($query);
+  }
+
+  /**
+   * 状態検索
+   * @return query
+   */
+  public function scopeSearchStatus($query, $value) {
+    if(!empty($value)) {
+      $query->where('status', '=', $value);
+    }
+  }
+
+  /**
+   * 期限検索
+   * @return query
+   */
+  public function scopeSearchDeadline($query, $start, $end) {
+    if(!empty($start)) {
+      $query->where('dead_line', '>=', $start);
     }
 
-    /**
-     * 整形した期限日
-     * @return string
-     */
-    public function getFormattedDeadLineAttribute()
-    {
-      return Carbon::createFromFormat('Y-m-d', $this->attributes['dead_line'])
-          ->format('Y年m月d日');
+    if(!empty($end)) {
+      $query->where('dead_line', '<=', $end);
     }
+  }
 
   public function listing() {
     return $this->belongsTo('App\Listing');

@@ -32,7 +32,7 @@
                 <label for="status">状態</label>
                 <select name="status" id="status" class="form-control">
                   @foreach(\App\Task::STATUS as $key => $val)
-                    <option value="{{ $key }}" {{ $key == old('status', $task->status) ? 'selected' : '' }}>
+                    <option value="{{ $key }}" @if($key == $task->status) selected  @endif >
                       {{ $val['label'] }}
                     </option>
                   @endforeach

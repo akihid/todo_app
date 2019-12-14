@@ -16,6 +16,32 @@
               </a>
             </div>
           </div>
+
+          <div class="card-body">
+            <form class="search-box" action="{{ route('tasks.index', ['listing' => $current_listing])}}" method="GET">
+              @csrf
+              <div class="form-group">
+                <input type="text" name="search_title" class="form-control" id="search_title"  value = "{{ $search_params['search_title'] }}" placeholder="タイトルを入力してください">
+              </div>
+              <div class="form-group">
+                <label for="status">状態</label>
+                <select name="search_status" id="search_status" class="form-control">
+                  @foreach(\App\Task::STATUS as $key => $val)
+                    <option value="{{ $key }}" @if($key == $search_params['search_status']) selected  @endif>
+                      {{ $val['label'] }}
+                    </option>
+                  @endforeach
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="search_deadline">期限</label>
+                <input type="date" class="form-control" name="search_deadline_start" id="search_deadline_start" value = "{{ $search_params['search_deadline_start'] }}" />
+                <input type="date" class="form-control" name="search_deadline_end" id="search_deadline_end" value = "{{ $search_params['search_deadline_end'] }}" />
+              </div>
+                <button type="submit" class="btn btn-primary">検索</button>
+            </form>
+          </div>
+
           <table class="table">
             <thead>
             <tr>

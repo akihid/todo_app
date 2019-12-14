@@ -19,19 +19,36 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  Listing $listing
      * @return \Illuminate\Http\Response
      */
-    public function index(Listing $listing)
+    public function index(Request $request, Listing $listing)
     {
-      
+
       $listings = Auth::user()->listings()->get();
-      
-      // リストに紐づくタスクを取得
-      $tasks = $listing->tasks()->get();
       $current_listing = $listing;
 
-      return view('tasks/index', compact('listings', 'current_listing', 'tasks'));
+      // 検索条件の値を取得
+      $search_params['search_title'] = $request->input('search_title');
+      $search_params['search_status']= $request->input('search_status');
+      $search_params['search_deadline_start']= $request->input('search_deadline_start');
+      $search_params['search_deadline_end']= $request->input('search_deadline_end');
+      // $search_title = $request->input('search_title');
+      // $search_status = $request->input('search_status');
+      // $search_deadline_start = $request->input('search_deadline_start');
+      // $search_deadline_end= $request->input('search_deadline_end');
+      
+      // dd($search_params);
+      // リストに紐づくタスクを取得
+      $tasks = $listing->tasks()
+                        ->SearchTitle($search_params['search_title'])
+                        ->SearchStatus($search_params['search_status'])
+                        ->SearchDeadline($search_params['search_deadline_start'], $search_params['search_deadline_end'])
+                        ->get();
+
+                        // dd($search_params);
+      return view('tasks/index', compact('listings', 'current_listing', 'tasks', 'search_params'));
     }
 
     /**
