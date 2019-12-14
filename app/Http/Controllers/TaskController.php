@@ -11,6 +11,11 @@ use App\Http\Requests\TaskRequest;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+      $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +30,7 @@ class TaskController extends Controller
       // リストに紐づくタスクを取得
       $tasks = $listing->tasks()->get();
       $current_listing = $listing;
-      
+
       return view('tasks/index', compact('listings', 'current_listing', 'tasks'));
     }
 

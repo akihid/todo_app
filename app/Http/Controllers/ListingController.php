@@ -9,13 +9,9 @@ use App\Http\Requests\ListingRequest;
 
 class ListingController extends Controller
 {
-
-  // Todo：確認用のためタスク一覧作成時削除する
-  public function index()
-  { 
-    $listings = Auth::user()->listings()->get();
-
-    return view('listings.index', compact('listings')); 
+  public function __construct()
+  {
+    $this->middleware('auth');
   }
 
   /**
@@ -86,6 +82,10 @@ class ListingController extends Controller
     $listing->delete();
 
     $listing = Auth::user()->listings()->get()->first();
+    // リストがないとタスクを作れないため、遷移先を変更する
+    if (is_null($listing)) {
+      return view('home')->with('message', '削除しました');
+    }
 
     return redirect()->route('tasks.index', compact('listing'))->with('message', '削除しました');
   }
