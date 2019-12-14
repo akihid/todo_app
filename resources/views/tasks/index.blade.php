@@ -28,8 +28,9 @@
                 <div class="col form-group">
                   <label for="status">状態</label>
                   <select name="search_status" id="search_status" class="form-control">
+                    <option value=""></option>
                     @foreach(\App\Task::STATUS as $key => $val)
-                      <option value="{{ $key }}" @if($key === $search_params['search_status']) selected  @endif>
+                      <option value="{{ $key }}" @if($key == $search_params['search_status']) selected  @endif>
                         {{ $val['label'] }}
                       </option>
                     @endforeach
