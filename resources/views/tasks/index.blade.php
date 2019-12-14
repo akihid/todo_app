@@ -27,7 +27,7 @@
                 <label for="status">状態</label>
                 <select name="search_status" id="search_status" class="form-control">
                   @foreach(\App\Task::STATUS as $key => $val)
-                    <option value="{{ $key }}" @if($key == $search_params['search_status']) selected  @endif>
+                    <option value="{{ $key }}" @if($key === $search_params['search_status']) selected  @endif>
                       {{ $val['label'] }}
                     </option>
                   @endforeach
@@ -60,8 +60,8 @@
                   </td>
                   <td>{{ $task->formatted_dead_line }}</td>
                   <td>
-                    <a href="{{ route('tasks.edit', ['listing' => $task->listing, 'task' => $task]) }}">編集</a>
                     <form method="post" action="{{ route('tasks.destroy', ['listing' => $task->listing, 'task'=>$task]) }}">
+                      <a href="{{ route('tasks.edit', ['listing' => $task->listing, 'task' => $task]) }}">編集</a>
                       @csrf
                       @method('DELETE')
                       <input type="submit" value="削除" class="btn btn-danger btn-sm" onclick='return confirm("本当に削除しますか？");'>
