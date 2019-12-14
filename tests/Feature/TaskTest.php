@@ -96,6 +96,7 @@ class TaskTest extends TestCase
       'status' => 2,
       'start_line'=>Carbon::today()->format('Y/m/d'),
       'dead_line'=> Carbon::today()->format('Y/m/d'),
+      'listing_id' => $listing->id,
     ];
 
     $response = $this->actingAs($user)->patch(route('tasks.update', ['listing' => $listing, 'task' => $task]), $data);

@@ -96,6 +96,7 @@ class TaskController extends Controller
     public function edit(Listing $listing, Task $task)
     {
       $listings = Auth::user()->listings()->get();
+      $listing = $task->listing;
       return view('tasks/edit', compact('task', 'listing', 'listings'));
     }
 
@@ -109,13 +110,15 @@ class TaskController extends Controller
      */
     public function update(Listing $listing, Task $task, TaskRequest $request)
     {
-      $task->listing_id = $request->list;
+      $task->listing_id = $request->listing_id;
       $task->title = $request->title;
       $task->content = $request->content;
       $task->status = $request->status;
       $task->start_line = $request->start_line;
       $task->dead_line = $request->dead_line;
       $task->save();
+
+      $listing = $task->listing;
       return redirect()->route('tasks.index', compact('listing'))->with('message', '更新しました');
     }
 

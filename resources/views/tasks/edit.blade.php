@@ -40,9 +40,9 @@
               </div>
               <div class="form-group">
                 <label for="title">設定リスト</label>
-                <select name="list" id="list" class="form-control">
+                <select name="listing_id" id="listing_id" class="form-control">
                   @foreach($listings as $list)
-                    <option value="{{ $list->id }}" @if( $list->id == old('list', $listing->id)) selected  @endif >
+                    <option value="{{ $list->id }}" @if( $list->id == old('listing_id', $listing->id)) selected  @endif >
                       {{ $list->title }}
                     </option>
                   @endforeach
