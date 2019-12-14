@@ -49,7 +49,7 @@
             </form>
           </div>
 
-          <table class="table">
+          <table class="table table-hover">
             <thead>
             <tr>
               <th>タイトル</th>
@@ -68,7 +68,7 @@
                   <td>
                     {{ $task->formatted_dead_line }}
                     @if ($task->is_deadline_over_today)
-                      <i class="fas fa-exclamation-triangle"></i>
+                      <i class="fas fa-exclamation-triangle" style="color:red;"></i>
                     @endif
                   </td>
                   

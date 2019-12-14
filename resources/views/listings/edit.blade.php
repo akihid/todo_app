@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
       <div class="col col-md-offset-3 col-md-6">
         <nav class="card">
-          <div class="card-header">リスト追加</div>
+          <div class="card-header">リスト編集</div>
           <div class="card-body">
             @include('errors.form_errors')
             <form action="{{ route('listings.update', ['listing' => $listing]) }}" method="post">

@@ -32,9 +32,9 @@
                 <label for="status">状態</label>
                 <select name="status" id="status" class="form-control">
                   @foreach(\App\Task::STATUS as $key => $val)
-                    <option value="{{ $key }}" @if($key === $task->status) selected  @endif >
-                      {{ $val['label'] }}
-                    </option>
+                  <option value="{{ $key }}" @if($key == old('status', $task->status)) selected  @endif >
+                  {{ $val['label'] }} </option>
+
                   @endforeach
                 </select>
               </div>
@@ -42,7 +42,7 @@
                 <label for="title">設定リスト</label>
                 <select name="list" id="list" class="form-control">
                   @foreach($listings as $list)
-                    <option value="{{ $list->id }}" @if($list === $listing) selected  @endif >
+                    <option value="{{ $list->id }}" @if( $list->id == old('list', $listing->id)) selected  @endif >
                       {{ $list->title }}
                     </option>
                   @endforeach
