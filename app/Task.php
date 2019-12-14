@@ -10,13 +10,13 @@ class Task extends Model
   protected $fillable = ['listing_id', 'title', 'content', 'start_line', 'dead_line', 'status'];
 
   const STATUS = [
-    1 => [ 'label' => ' 未着手', 'class' => 'badge badge-danger' ],
-    2 => [ 'label' => ' 着手中', 'class' => 'badge badge-info' ],
-    3 => [ 'label' => ' 完了', 'class' => 'badge badge-success' ],
+    1 => [ 'label' => ' 未着手', 'class' => 'badge badge-danger', 'color' => '#ED8077' ],
+    2 => [ 'label' => ' 着手中', 'class' => 'badge badge-info text-white', 'color' => '#4388C5' ],
+    3 => [ 'label' => ' 完了', 'class' => 'badge badge-success', 'color' => '#B0BD3C' ],
   ];
 
   /**
-   * 状態のラベル
+   * 状態のラベルを返す
    * @return string
    */
   public function getStatusLabelAttribute()
@@ -34,10 +34,20 @@ class Task extends Model
     return self::STATUS[$status]['class'];
   }
 
-/**
- * 整形した開始日
- * @return string
- */
+  /**
+   * 状態の色を返す（カレンダー表示）
+   * @return string
+   */
+  public function getStatusColorattribute()
+  {
+    $status = $this->attributes['status'];
+    return self::STATUS[$status]['color'];
+  }
+
+  /**
+   * 整形した開始日
+   * @return string
+   */
   public function getFormattedStartLineAttribute()
   {
     return Carbon::createFromFormat('Y-m-d', $this->attributes['start_line'])

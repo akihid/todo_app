@@ -56,7 +56,7 @@
                 <tr>
                   <td>{{ $task->title }}</td>
                   <td>
-                    <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
+                    <span class="{{ $task->status_class }}">{{ $task->status_label }}</span>
                   </td>
                   <td>{{ $task->formatted_dead_line }}</td>
                   <td>
@@ -69,5 +69,7 @@
         </div>
       </div>
     </div>
+
+    @include('tasks._calender', ['tasks' => $tasks])
   </div>
 @endsection

@@ -24,6 +24,10 @@
                 <div class="form-control" >{{ $task->formatted_dead_line }}</div>
               </div>
               <div class="form-group">
+                <label for="status">状態</label>
+                <div class="form-control" >{{ $task->status_label }}</div>
+              </div>
+              <div class="form-group">
                 <label for="title">設定リスト</label>
                 <div class="form-control">{{ $listing->title }}</div>
               </div>
