@@ -29,17 +29,14 @@
 
         </div>
 
-
-          <!-- タスクの一覧横並べする -->
-
-          <!-- 現状必要ないが、いずれ使えるように判定しとく -->
-          @if ($user->id == Auth::id())
-            <a class="btn btn-primary btn-sm d-block mx-auto" href="{{ route('users.edit', ['user'=>$user]) }}">ユーザー情報の更新</a>
-          @endif
-        </div>
+        <!-- 現状必要ないが、いずれ使えるように判定しとく -->
+        @if ($user->id == Auth::id())
+          <a class="btn btn-primary btn-sm d-block mx-auto" href="{{ route('users.edit', ['user'=>$user]) }}">ユーザー情報の更新</a>
+        @endif
       </div>
-      <!-- リストの一覧を表示する場所 -->
-      <div class="col-md-4">
+    </div>
+    <!-- リストの一覧を表示する場所 -->
+    <div class="col-md-4">
       <nav class="card">
         <div class="card-header">
           リスト一覧
@@ -50,7 +47,7 @@
           </div>
         </div>
       </nav>
-      <table class="table table-hover">
+      <table class="table">
         @foreach($listings as $list)
           <tbody>
             <tr>
@@ -59,14 +56,36 @@
           </tbody>
         @endforeach
       </table>
+
+      <div class="card text-center">
+        <div class="card-header">現在の {{ (empty($user->birthplace)) ? '東京都' : $user->birthplace_name }} の天気</div>
+          <div class="card-body row">
+            <div class="col">
+              <img src="{{ $weather_info['icon'] }}">
+            </div>
+            <div class="col">
+              <p class="p-now-des">{!! $weather_info['des'] !!}</p>
+              <p class="p-now-temp">{{ $weather_info['temp'] }}℃</p>
+              <p class="p-now-humidity">湿度：{{$weather_info['humidity'] }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center pt-2">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">タスクの状態</div>
+          <div class="text-right">
+            <a href="{{ route('listings.create') }}" class="btn btn-primary">
+              タスク一覧
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-
-  <!-- タスクのカレンダー表示でもする -->
-  <div class="row">
-  </div>
+</div>
 
 
 @endsection 

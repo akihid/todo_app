@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\User;
 use Storage;
+use App\Services\OpenWeatherMap;
 
 class UserController extends Controller
 {
@@ -51,10 +52,11 @@ class UserController extends Controller
      * @param  User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, OpenWeatherMap $openweathermap)
     {
       $listings = $user->listings()->get();
-      return view('users.show', compact('user', 'listings'));
+      $weather_info = $openweathermap->getWeather($user);
+      return view('users.show', compact('user', 'listings', 'weather_info'));
     }
 
     /**
