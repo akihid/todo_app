@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\User;
+use Storage;
 
 class UserController extends Controller
 {
@@ -76,10 +77,11 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User $user)
     {
-      if (!empty($request->icon)) {
-        $filename = $request->file('icon')->store('public/avator_images');
+      $file = $request->icon;
+      if (!empty($file)) {
+        $path = Storage::disk('s3')->putFile('/', $file, 'public');
         $user->update([
-          'icon' => basename($filename),
+          'icon' => Storage::disk('s3')->url($path),
           'name' => $request->name,
           'email' => $request->email,
           'birthplace' => $request->birthplace,

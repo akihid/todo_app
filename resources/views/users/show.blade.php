@@ -7,11 +7,28 @@
       <!-- ユーザー画像やタスク数を表示する -->
       <div class="card">
         <div class="card-header">{{$user->name}}のユーザーページ</div>
-          @isset ($user->avator_url)
-            <img class="avator_img_def" src="{{ asset('/storage/avator_images/'.$user->avator_url) }}" alt="アバター画像">
+        <div class="card-body text-center">
+          @isset ($user->icon)
+            <img src="{{ $user->icon }}" alt="アバター画像">
           @else
-            <img class="avator_img_def" src="/images/default.jpeg" alt="アバター画像">
+            <img  src="/images/default.jpeg" alt="アバター画像">
           @endisset
+        </div>
+        <div class="card-body text-left">
+          <div class="form-group">
+            <label for="email">メールアドレス</label>
+            <div class="form-control" >{{ $user->email }}</div>
+          </div>
+
+          @if (!empty($user->birthplace))
+            <div class="form-group">
+              <label for="email">出身地</label>
+              <div class="form-control" >{{ $user->birthplace_name }}</div>
+            </div>
+          @endif
+
+        </div>
+
 
           <!-- タスクの一覧横並べする -->
 
