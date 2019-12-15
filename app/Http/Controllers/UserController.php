@@ -106,4 +106,14 @@ class UserController extends Controller
     // {
     //     //
     // }
+
+    /**
+     * @param  User  $user
+     * @return Tasks $tasks
+     */
+    public function getUserTasksInfo(User $user)
+    {
+      $listings = $user->listings()->get();
+
+    }
 }

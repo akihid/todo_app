@@ -41,11 +41,11 @@
                 <option value=""></option>
                 @foreach(\App\User::BIRTHPLACE as $key => $val)
                   <option value="{{ $key }}" @if($key == $user->birthplace) selected  @endif>
-                    {{ $val }}
+                    {{ $val['name'] }}
                   </option>
                 @endforeach
               </select>
-
+              
               </div>
               <div class="form-group row">
               <input type="submit" class="btn btn-primary d-block mx-auto" value="更新">
