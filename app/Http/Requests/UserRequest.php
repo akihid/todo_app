@@ -13,7 +13,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,8 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+      return [
+        'icon' => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
+      ];
     }
 }

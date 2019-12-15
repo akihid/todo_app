@@ -27,7 +27,6 @@ class TaskController extends Controller
     {
 
       $listings = Auth::user()->listings()->get();
-      $current_listing = $listing;
 
       // 検索条件の値を取得
       $search_params['search_title'] = $request->input('search_title');
@@ -42,7 +41,7 @@ class TaskController extends Controller
                         ->SearchDeadline($search_params['search_deadline_start'], $search_params['search_deadline_end'])
                         ->get();
 
-      return view('tasks/index', compact('listings', 'current_listing', 'tasks', 'search_params'));
+      return view('tasks/index', compact('listings', 'listing', 'tasks', 'search_params'));
     }
 
     /**

@@ -36,15 +36,15 @@ class ListingController extends Controller
     return redirect()->route('tasks.index', compact('listing'))->with('message', '作成しました');;
   }
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  Listing  $listing
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Listing $listing)
-  { 
-  }
+  // /**
+  //  * Display the specified resource.
+  //  *
+  //  * @param  Listing  $listing
+  //  * @return \Illuminate\Http\Response
+  //  */
+  // public function show(Listing $listing)
+  // { 
+  // }
 
   /**
    * Show the form for editing the specified resource.
