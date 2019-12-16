@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
-
+                <p class="text-center p-2"><a href="{{ route('twitter.login') }}" class="btn btn-outline-info"> <i class="fab fa-twitter"></i> Twitterでログイン</a></p>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

@@ -25,13 +25,14 @@ class UserController extends Controller
     public function show(User $user, OpenWeatherMap $openweathermap)
     {
       $listings = $user->listings()->get();
+      
+      // リストがないとタスクを作れないため、遷移先を変更する
+      if ($listings->isEmpty()) {
+        return view('/home');
+      }
       $weather_infos = $openweathermap->getWeather($user);
       $task_status_array = $this->getUserTasksInfo($user);
-      // dd($task_status_array[6][' 未着手']);
-      // foreach($task_status_array as $key => $val){
-      //   // dd($key);
-      //   dd($val);
-      // }
+
       return view('users.show', compact('user', 'listings', 'weather_infos', 'task_status_array'));
     }
 

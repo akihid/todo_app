@@ -84,7 +84,7 @@ class ListingController extends Controller
     $listing = Auth::user()->listings()->get()->first();
     // リストがないとタスクを作れないため、遷移先を変更する
     if (is_null($listing)) {
-      return view('home')->with('message', '削除しました');
+      return view('/home')->with('message', '削除しました');
     }
 
     return redirect()->route('tasks.index', compact('listing'))->with('message', '削除しました');
