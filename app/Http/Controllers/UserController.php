@@ -14,6 +14,7 @@ class UserController extends Controller
   public function __construct()
   {
     $this->middleware('auth')->only(['show', 'edit', 'update']);
+    $this->middleware('user_show_auth')->only(['show', 'edit']);
   }
   
     /**
@@ -74,17 +75,6 @@ class UserController extends Controller
       }
       return redirect()->route('users.show', ['user'=>$user])->with('message', 'ユーザー情報を更新しました');
     }
-
-    // /**
-    //  * Remove the specified resource from storage.
-    //  *
-    //  * @param  int  $id
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function destroy($id)
-    // {
-    //     //
-    // }
 
     /**
      * @param  User  $user

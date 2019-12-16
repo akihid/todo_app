@@ -12,6 +12,7 @@ class ListingController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
+    $this->middleware('listing_show_auth')->only(['edit', 'update', 'destroy']);
   }
 
   /**
@@ -33,18 +34,8 @@ class ListingController extends Controller
   public function store(ListingRequest $request)
   {
     $listing = Auth::user()->listings()->create($request->validated());
-    return redirect()->route('tasks.index', compact('listing'))->with('message', '作成しました');;
+    return redirect()->route('tasks.index', compact('listing'))->with('message', '作成しました');
   }
-
-  // /**
-  //  * Display the specified resource.
-  //  *
-  //  * @param  Listing  $listing
-  //  * @return \Illuminate\Http\Response
-  //  */
-  // public function show(Listing $listing)
-  // { 
-  // }
 
   /**
    * Show the form for editing the specified resource.
