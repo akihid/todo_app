@@ -55,8 +55,8 @@ class UserController extends Controller
     public function show(User $user, OpenWeatherMap $openweathermap)
     {
       $listings = $user->listings()->get();
-      $weather_info = $openweathermap->getWeather($user);
-      return view('users.show', compact('user', 'listings', 'weather_info'));
+      $weather_infos = $openweathermap->getWeather($user);
+      return view('users.show', compact('user', 'listings', 'weather_infos'));
     }
 
     /**

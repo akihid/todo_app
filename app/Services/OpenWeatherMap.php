@@ -1,11 +1,12 @@
 <?php
 
 namespace App\Services;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 
 class OpenWeatherMap
 {
-  private const SEARCH_API_URL = 'http://api.openweathermap.org/data/2.5/weather?';
+  private const SEARCH_API_URL = 'http://api.openweathermap.org/data/2.5/forecast?';
 
   public function getWeather($user): array
   {
@@ -20,13 +21,29 @@ class OpenWeatherMap
                     ]
                   ]);
     $data = json_decode($res->getBody(), true);
-    // dd($data );
-    $weather_info['des'] = $this->getTranslation($data['weather'][0]['description']);
-    $weather_info['icon'] = "http://openweathermap.org/img/wn/" .$data['weather'][0]['icon']. "@2x.png";
-    $weather_info['temp'] = $data['main']['temp'];
-    $weather_info['humidity'] = $data['main']['humidity'];
+    $weather_list = $data['list'];
+    
+    foreach( $weather_list as $key => $items ){
 
-    return $weather_info;
+      // 24時間分だけ取得する
+      if ($key == 8){
+        break;
+      } 
+    
+
+      $array[$key]['temp'] = $items['main']['temp']; // 気温
+      $array[$key]['humidity']  = $items['main']['humidity'];
+      $array[$key]['weather'] = $items['weather'][0]['main'];
+      $array[$key]['des'] = $this->getTranslation($items['weather'][0]['description']); 
+      $array[$key]['icon'] = "http://openweathermap.org/img/wn/" .$items['weather'][0]['icon']. "@2x.png";
+      
+      $datetime = new Carbon();
+      $datetime = $datetime->setTimestamp( $items['dt'] )->timezone('Asia/Tokyo');
+      $array[$key]['date'] = $datetime->format('Y年m月d日'); // 日付
+      $array[$key]['time'] = $datetime->format('H:i'); // 時間
+    }
+
+    return $array;
   }
   // 日本語に変換
   private function getTranslation($arg){
