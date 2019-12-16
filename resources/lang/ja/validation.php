@@ -153,6 +153,9 @@ return [
       'content' => '内容',
       'start_line' => '開始日',
       'dead_line' => '期限',
+      'status' => '状態',
+      'icon' => 'アイコン',
+      'birthplace' => '出身地',
     ],
 
 ];

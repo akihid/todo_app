@@ -14,16 +14,25 @@
           @endif
 
           @if(Auth::check())
-          <div class="mx-auto pt-5 pb-5">
-              <h1 class="text-center"><b>タスクを管理するにはリストを最初に作る必要があります</b></h1>
-              <a href="{{ route('listings.create') }}" class="btn btn-primary">リスト作成ページへ</a>
-              <a class="text-center" href="https://github.com/akihid/board">GitHub</a>
+            <div class="mx-auto pt-5 pb-5">
+              <nav class="panel panel-default">
+                <div class="panel-heading text-center">
+                  タスク管理用のリストを作成しましょう
+                </div>
+                <div class="panel-body pt-2">
+                  <div class="text-center">
+                    <a href="{{ route('listings.create') }}">リスト作成ページへ→</a>
+                  </div>
+                </div>
+              </nav>
             </div>
           @else
-            <div class="mx-auto pt-5 pb-5">
-              <h1 class="text-center"><b>Hello！</b></h1>
-              <p class="text-center">タスク管理サイトです。<br>タスクをカレンダー表示することで自分のタスクを管理しやすくしています。</p>
-              <a class="text-center" href="https://github.com/akihid/todo_app">GitHub</a>
+            <div class="mx-auto pt-5 pb-5 text-center">
+              <h1><b>Wellcome! ToDo!!!</b></h1>
+              <p>タスクをカレンダー表示することで自分のタスクを管理しやすくしています。<br>マイページで24時間の天気情報の確認もできます。</p>
+              <a href="https://github.com/akihid/todo_app">GitHub</a><span> | </span>
+              <a href="{{ route('login') }}">LogIn</a><span> | </span>
+              <a href="{{ route('register') }}">SignUp</a>
             </div>
           @endif 
         </div>

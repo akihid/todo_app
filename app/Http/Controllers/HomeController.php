@@ -19,7 +19,7 @@ class HomeController extends Controller
 
         // リストがないとタスクを作れないため、遷移先を変更する
         if (is_null($listing)) {
-          return view('/');
+          return view('/home');
         }
 
         return redirect()->route('tasks.index', compact('listing'));
