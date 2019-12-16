@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
-use App\User;
 use Storage;
+use App\User;
+use App\Task;
 use App\Services\OpenWeatherMap;
 
 class UserController extends Controller
@@ -15,37 +16,6 @@ class UserController extends Controller
     $this->middleware('auth')->only(['show', 'edit', 'update']);
   }
   
-    // /**
-    //  * Display a listing of the resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function index()
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    //     //
-    // }
-
-    // /**
-    //  * Store a newly created resource in storage.
-    //  *
-    //  * @param  \Illuminate\Http\Request  $request
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
-
     /**
      * Display the specified resource.
      *
@@ -56,7 +26,13 @@ class UserController extends Controller
     {
       $listings = $user->listings()->get();
       $weather_infos = $openweathermap->getWeather($user);
-      return view('users.show', compact('user', 'listings', 'weather_infos'));
+      $task_status_array = $this->getUserTasksInfo($user);
+      // dd($task_status_array[6][' 未着手']);
+      // foreach($task_status_array as $key => $val){
+      //   // dd($key);
+      //   dd($val);
+      // }
+      return view('users.show', compact('user', 'listings', 'weather_infos', 'task_status_array'));
     }
 
     /**
@@ -111,11 +87,19 @@ class UserController extends Controller
 
     /**
      * @param  User  $user
-     * @return Tasks $tasks
+     * @return Array[]
      */
     public function getUserTasksInfo(User $user)
     {
       $listings = $user->listings()->get();
-
+      // リストの数ループ
+      foreach($listings as $listing){
+        // タスクのステータス分ループ
+        foreach(Task::STATUS as $key => $val){
+          $data[$listing->id][$val['label']] = $listing->tasks()->SearchStatus($key)->get()->count();
+        }
+        $data[$listing->id]['期限切れ'] = $listing->tasks()->ExpiredCount($key)->get()->count();
+      }
+      return $data;
     }
 }

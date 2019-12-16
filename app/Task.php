@@ -10,7 +10,7 @@ class Task extends Model
   protected $fillable = ['listing_id', 'title', 'content', 'start_line', 'dead_line', 'status'];
 
   const STATUS = [
-    1 => [ 'label' => ' 未着手', 'class' => 'badge badge-danger', 'color' => '#e3342f' ],
+    1 => [ 'label' => ' 未着手', 'class' => 'badge badge-secondary text-white', 'color' => '#e3342f' ],
     2 => [ 'label' => ' 着手中', 'class' => 'badge badge-info text-white', 'color' => '#6cb2eb' ],
     3 => [ 'label' => ' 完了', 'class' => 'badge badge-success', 'color' => '#38c172' ],
   ];
@@ -76,6 +76,7 @@ class Task extends Model
   {
     return (Carbon::today() > $this->attributes['dead_line'] and $this->attributes['status'] != 3)  ? true : false;
   }
+
   /**
    * タイトルlike検索
    * @return query
@@ -108,5 +109,15 @@ class Task extends Model
     if(!empty($end)) {
       $query->where('dead_line', '<=', $end);
     }
+  }
+
+  /**
+   * 期限切れのタスク件数取得
+   * @return query
+   */
+  public function scopeExpiredCount($query)
+  {
+    $query->where('dead_line', '<', Carbon::today())
+          ->where('title', '!=', '3');
   }
 }

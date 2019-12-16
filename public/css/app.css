@@ -11374,13 +11374,13 @@ a {
 }
 
 a:hover {
+  text-decoration: none;
   opacity: 0.7;
   color: black;
   font-weight: bold;
 }
 
 table td a {
-  text-decoration: none;
   display: block;
   width: 100%;
   height: 100%;

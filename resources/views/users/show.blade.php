@@ -28,7 +28,6 @@
           @endif
 
         </div>
-
         <!-- 現状必要ないが、いずれ使えるように判定しとく -->
         @if ($user->id == Auth::id())
           <a class="btn btn-primary btn-sm d-block mx-auto mb-3" href="{{ route('users.edit', ['user'=>$user]) }}">ユーザー情報の更新</a>
@@ -39,31 +38,24 @@
     <div class="col-md-4">
       <nav class="card">
         <div class="card-header">
-          リスト一覧
-          <div class="text-right">
-            <a href="{{ route('listings.create') }}" class="btn btn-primary">
-              リストを追加する
-            </a>
-          </div>
+          タスクの状態
         </div>
       </nav>
-      <table class="table">
-        @foreach($listings as $list)
-          <tbody>
-            <tr>
-              <td>{{ $list->title }}</td>
-            </tr>
-          </tbody>
-        @endforeach
-      </table>
-      <div class="card">
-          <div class="card-header">タスクの状態</div>
-          <div class="text-right">
-            <a href="{{ route('listings.create') }}" class="btn btn-primary">
-              タスク一覧
-            </a>
+
+      @foreach($listings as $list)
+        <a href="{{ route('tasks.index', ['listing' => $list]) }}" class="card">
+          <div class="card-header  text-center">{{ $list->title }} </div>
+          <div class="text-center">
+            @foreach(\App\Task::STATUS as $key => $val)
+              <p class="{{ $val['class'] }}">{{ $val['label'] }}{{ $task_status_array[$list->id][$val['label']] }}</p>
+            @endforeach
+            @if ($task_status_array[$list->id]['期限切れ'] > 0)
+              <p class="badge badge-danger">期限切れ:{{ $task_status_array[$list->id]['期限切れ'] }}</p>
+            @endif
           </div>
-        </div>
+        </a>
+      @endforeach
+
     </div>
   </div>
   <div class="bg-primary text-white text-center py-0 mt-3">{{(empty($user->birthplace)) ?'東京都' : $user->birthplace_name}}の直近24時間の3時間ごとの天気</div>

@@ -91,6 +91,11 @@ class User extends Authenticatable
       return $this->hasMany('App\Listing');
     }
 
+    public function tasks()
+    {
+      return $this->belongsToMany('App\Task', 'listings');
+    }
+
   /**
    * 出身地名返却
    * @return string
