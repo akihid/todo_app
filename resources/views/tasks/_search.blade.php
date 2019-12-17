@@ -28,6 +28,7 @@
     <input type="date" class="col form-control" name="search_deadline_end" id="search_deadline_end" value = "{{ $search_params['search_deadline_end'] }}" />
   </div>
   <div class="text-right">
-    <button type="submit" class="btn btn-primary">検索</button>
+    <a class="btn btn-secondary btn-sm" href="{{ route('tasks.store', ['listing' => $listing]) }}">クリア</a>
+    <button type="submit" class="btn btn-primary btn-sm">検索</button>
   </div>
 </form>
