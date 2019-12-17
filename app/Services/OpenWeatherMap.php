@@ -90,6 +90,9 @@ class OpenWeatherMap
       case 'snow':
         return '雪';
         break;
+      case 'light snow':
+        return '軽い雪';
+        break;
       case 'mist':
         return '靄';
         break;
