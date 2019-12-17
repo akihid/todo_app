@@ -20,6 +20,14 @@
       <label for="tag">タグ</label>
       <input type="text" name="search_tag" class="form-control" id="search_tag"  value = "{{ $search_params['search_tag'] }}" placeholder="タグ名を入力してください">
     </div>
+    <div class="col form-group">
+      <label for="sort_by">ソート順</label>
+      <select name="sort_by" id="sort_by" class="form-control">
+        <option value=""></option>
+        <option value="status">状態でソート</option>
+        <option value="dead_line">期限でソート</option>
+      </select>
+    </div>
   </div>
   <label for="search_deadline">期限</label>
   <div class="form-group form-row">

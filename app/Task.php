@@ -103,9 +103,9 @@ class Task extends Model
   }
 
   /**
- * 状態検索
- * @return query
- */
+   * タグ検索
+   * @return query
+   */
   public function scopeSearchTag($query, $value) {
     if(!empty($value)) {
       $query->with('tags')
@@ -126,6 +126,24 @@ class Task extends Model
 
     if(!empty($end)) {
       $query->where('dead_line', '<=', $end);
+    }
+  }
+
+  /**
+   * ソート
+   * @return query
+   */
+  public function scopeSort($query, $column) {
+    switch ($column) {
+      case "status":
+        $query->orderBy($column, 'desc');
+        break;
+      case "dead_line":
+        $query->orderBy($column, 'asc');
+        break;
+      default:
+        $query->orderBy('updated_at', 'desc');
+        break;
     }
   }
 

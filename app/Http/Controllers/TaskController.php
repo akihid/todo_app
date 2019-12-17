@@ -36,6 +36,7 @@ class TaskController extends Controller
     $search_params['search_tag'] = $request->input('search_tag');
     $search_params['search_deadline_start']= $request->input('search_deadline_start');
     $search_params['search_deadline_end']= $request->input('search_deadline_end');
+    $search_params['sort_by']= $request->input('sort_by');
 
     // リストに紐づくタスクを取得
     $tasks = $listing->tasks()
@@ -43,6 +44,7 @@ class TaskController extends Controller
                       ->SearchStatus($search_params['search_status'])
                       ->SearchTag($search_params['search_tag'])
                       ->SearchDeadline($search_params['search_deadline_start'], $search_params['search_deadline_end'])
+                      ->Sort($search_params['sort_by'])
                       ->paginate(8);
 
 
