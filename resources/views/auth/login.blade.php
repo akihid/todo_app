@@ -65,6 +65,12 @@
                             </div>
                         </div>
                     </form>
+                    <form class="col-md-6 mx-auto pt-5" action="{{ route('login') }}" method="POST">
+                      @csrf
+                      <input type="hidden" id="email" name="email" value="test@co.jp">
+                      <input type="hidden" id="password" name="password" value="password">
+                      <input type="submit" class="btn btn-secondary mx-auto d-block" value="テストユーザーでログイン">
+                    </form>
                 </div>
             </div>
         </div>
