@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Listing;
 use App\Task;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\TaskRequest;
@@ -65,12 +66,15 @@ class TaskController extends Controller
   public function store(Listing $listing, TaskRequest $request)
   {
     $task = new Task();
+
     $task->title = $request->title;
     $task->content = $request->content;
     $task->start_line = $request->start_line;
     $task->dead_line = $request->dead_line;
 
     $listing->tasks()->save($task);
+
+    $this->CreateCommaSeparatedTags($task, $request);
 
     return redirect()->route('tasks.index', compact('listing'));
   }
@@ -101,7 +105,17 @@ class TaskController extends Controller
 
     $listings = Auth::user()->listings()->get();
     $listing = $task->listing;
-    return view('tasks/edit', compact('task', 'listing', 'listings'));
+
+    $tag_array = [];
+    foreach ($task->tags as $tag) {
+      array_push($tag_array, $tag->name);
+    };
+    $tags = "";
+    if (!empty($tag_array)){
+      $tags = implode( ',', $tag_array);
+    }
+
+    return view('tasks/edit', compact('task', 'listing', 'listings', 'tags'));
   }
 
   /**
@@ -121,6 +135,8 @@ class TaskController extends Controller
     $task->start_line = $request->start_line;
     $task->dead_line = $request->dead_line;
     $task->save();
+
+    $this->CreateCommaSeparatedTags($task, $request);
 
     $listing = $task->listing;
     return redirect()->route('tasks.index', compact('listing'))->with('message', '更新しました');
@@ -146,5 +162,34 @@ class TaskController extends Controller
       { 
         abort(404);
       }
+  }
+
+  private function CreateCommaSeparatedTags(Task $task, TaskRequest $request){
+    $request_tags = explode(',',$request->tags);
+    $tags = [];
+    foreach ($request_tags as $tag) {
+      if (empty($tag)){
+        break;
+      }
+      
+      $record = Tag::firstOrCreate(['name' => $tag]);
+      array_push($tags, $record);
+    }
+    $tags_id = [];
+    foreach ($tags as $tag) {
+      array_push($tags_id, $tag['id']);
+    };
+
+    if (empty($tags_id))
+    { 
+      $task->tags()->detach();
+      return;
+    }
+
+    if ($request->isMethod('post')){
+      $task->tags()->attach($tags_id);
+    } else{
+      $task->tags()->sync($tags_id);
+    }
   }
 }

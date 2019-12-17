@@ -21,6 +21,10 @@
                 <textarea name="content" id="content" cols="20" rows="5" class="form-control">{{ old('content', $task->content) }}</textarea>
               </div>
               <div class="form-group">
+                <label for="tags">タグ(カンマ区切り）</label>
+                <input type="text" class="form-control" name="tags" id="tags" value="{{ old('tags', $tags) }}" >
+              </div>
+              <div class="form-group">
                 <label for="start_line">開始日</label>
                 <input type="date" class="form-control" name="start_line" id="start_line" value="{{ old('start_line', $task->start_line) }}" />
               </div>

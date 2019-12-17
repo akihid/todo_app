@@ -19,6 +19,11 @@ class Task extends Model
     return $this->belongsTo('App\Listing');
   }
 
+  public function tags()
+  {
+    return $this->belongsToMany('App\Tag', 'task_tag'); 
+  }
+
   /**
    * 状態のラベルを返す
    * @return string
