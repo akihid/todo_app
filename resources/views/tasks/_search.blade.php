@@ -16,6 +16,10 @@
         @endforeach
       </select>
     </div>
+    <div class="col form-group">
+      <label for="tag">タグ</label>
+      <input type="text" name="search_tag" class="form-control" id="search_tag"  value = "{{ $search_params['search_tag'] }}" placeholder="タグ名を入力してください">
+    </div>
   </div>
   <label for="search_deadline">期限</label>
   <div class="form-group form-row">

@@ -33,6 +33,7 @@ class TaskController extends Controller
     // 検索条件の値を取得
     $search_params['search_title'] = $request->input('search_title');
     $search_params['search_status']= $request->input('search_status');
+    $search_params['search_tag'] = $request->input('search_tag');
     $search_params['search_deadline_start']= $request->input('search_deadline_start');
     $search_params['search_deadline_end']= $request->input('search_deadline_end');
 
@@ -40,6 +41,7 @@ class TaskController extends Controller
     $tasks = $listing->tasks()
                       ->SearchTitle($search_params['search_title'])
                       ->SearchStatus($search_params['search_status'])
+                      ->SearchTag($search_params['search_tag'])
                       ->SearchDeadline($search_params['search_deadline_start'], $search_params['search_deadline_end'])
                       ->paginate(8);
 
@@ -164,7 +166,8 @@ class TaskController extends Controller
       }
   }
 
-  private function CreateCommaSeparatedTags(Task $task, TaskRequest $request){
+  private function CreateCommaSeparatedTags(Task $task, TaskRequest $request)
+  {
     $request_tags = explode(',',$request->tags);
     $tags = [];
     foreach ($request_tags as $tag) {
@@ -179,12 +182,6 @@ class TaskController extends Controller
     foreach ($tags as $tag) {
       array_push($tags_id, $tag['id']);
     };
-
-    if (empty($tags_id))
-    { 
-      $task->tags()->detach();
-      return;
-    }
 
     if ($request->isMethod('post')){
       $task->tags()->attach($tags_id);

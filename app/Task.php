@@ -103,6 +103,19 @@ class Task extends Model
   }
 
   /**
+ * 状態検索
+ * @return query
+ */
+  public function scopeSearchTag($query, $value) {
+    if(!empty($value)) {
+      $query->with('tags')
+            ->whereHas('tags', function($query) use ($value) {
+              $query->where('tags.name', '=', $value);
+            });
+    }
+  }
+
+  /**
    * 期限検索
    * @return query
    */
