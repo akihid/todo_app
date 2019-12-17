@@ -18,13 +18,15 @@ class ListingsTableSeeder extends Seeder
       DB::table('listings')->delete();
 
       $titles = ['趣味', '仕事', 'その他'];
-      $user = User::first();
+      $users = User::all();
 
-      foreach ($titles as $title) {
-        Listing::create([
-          'title' => $title,
-          'user_id' => $user->id
-        ]);
+      foreach ($users as $user) {
+        foreach ($titles as $title) {
+          Listing::create([
+            'title' => $title,
+            'user_id' => $user->id
+          ]);
+        }
       }
     }
 }

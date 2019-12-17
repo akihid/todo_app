@@ -24,8 +24,8 @@
       <label for="sort_by">ソート順</label>
       <select name="sort_by" id="sort_by" class="form-control">
         <option value=""></option>
-        <option value="status">状態でソート</option>
-        <option value="dead_line">期限でソート</option>
+        <option value="status" @if($search_params['sort_by'] == 'status') selected  @endif >状態でソート</option>
+        <option value="dead_line" @if($search_params['sort_by'] == 'dead_line') selected  @endif >期限でソート</option>
       </select>
     </div>
   </div>
