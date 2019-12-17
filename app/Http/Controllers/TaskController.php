@@ -40,7 +40,8 @@ class TaskController extends Controller
                       ->SearchTitle($search_params['search_title'])
                       ->SearchStatus($search_params['search_status'])
                       ->SearchDeadline($search_params['search_deadline_start'], $search_params['search_deadline_end'])
-                      ->get();
+                      ->paginate(8);
+
 
     return view('tasks/index', compact('listings', 'listing', 'tasks', 'search_params'));
   }

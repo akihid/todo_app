@@ -55,6 +55,8 @@
           </div>
         </a>
       @endforeach
+      <div class="text-center">{{ $listings->links('pagination.default') }}</div>
+      
 
     </div>
   </div>

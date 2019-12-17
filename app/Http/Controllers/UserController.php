@@ -25,7 +25,7 @@ class UserController extends Controller
      */
     public function show(User $user, OpenWeatherMap $openweathermap)
     {
-      $listings = $user->listings()->get();
+      $listings = $user->listings()->paginate(5);
       
       // リストがないとタスクを作れないため、遷移先を変更する
       if ($listings->isEmpty()) {
