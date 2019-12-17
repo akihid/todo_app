@@ -23,11 +23,12 @@ class TasksTableSeeder extends Seeder
       $faker = Faker::create('ja_JP');
 
       foreach ($listings as $listing) {
-        foreach (range(1, 3) as $num) {
+        foreach (range(1, 5) as $num) {
           Task::create([
             'listing_id' => $listing->id,
             'title' => $faker->realText(10),
             'content' => $faker->realText(30),
+            'status' => rand(1, 3),
             'start_line' => Carbon::now(),
             'dead_line' => Carbon::now()->addDay($num),
           ]);

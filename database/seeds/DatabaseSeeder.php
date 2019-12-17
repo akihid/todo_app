@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         UsersTableSeeder::class,
         ListingsTableSeeder::class,
         TasksTableSeeder::class,
+        TagsTableSeeder::class,
       ]);
     }
 }

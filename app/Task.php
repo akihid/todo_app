@@ -19,6 +19,11 @@ class Task extends Model
     return $this->belongsTo('App\Listing');
   }
 
+  public function tags()
+  {
+    return $this->belongsToMany('App\Tag', 'task_tag'); 
+  }
+
   /**
    * 状態のラベルを返す
    * @return string
@@ -98,6 +103,19 @@ class Task extends Model
   }
 
   /**
+   * タグ検索
+   * @return query
+   */
+  public function scopeSearchTag($query, $value) {
+    if(!empty($value)) {
+      $query->with('tags')
+            ->whereHas('tags', function($query) use ($value) {
+              $query->where('tags.name', '=', $value);
+            });
+    }
+  }
+
+  /**
    * 期限検索
    * @return query
    */
@@ -108,6 +126,24 @@ class Task extends Model
 
     if(!empty($end)) {
       $query->where('dead_line', '<=', $end);
+    }
+  }
+
+  /**
+   * ソート
+   * @return query
+   */
+  public function scopeSort($query, $column) {
+    switch ($column) {
+      case "status":
+        $query->orderBy($column, 'desc');
+        break;
+      case "dead_line":
+        $query->orderBy($column, 'asc');
+        break;
+      default:
+        $query->orderBy('updated_at', 'desc');
+        break;
     }
   }
 

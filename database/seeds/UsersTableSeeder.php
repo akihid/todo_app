@@ -20,14 +20,16 @@ class UsersTableSeeder extends Seeder
         'name' => 'テストユーザー',
         'email' => 'test@co.jp',
         'password' => Hash::make('password'),
+        'birthplace' => rand(1, 47),
       ]);
 
       for ($i = 1; $i <= 10; $i++) {
         $name = $faker->name;
         App\User::create([
           'name' => $name,
-          'email' => 'ユーザー' . $i . '@co.jp',
+          'email' => 'user' . $i . '@co.jp',
           'password' => Hash::make('password'),
+          'birthplace' => rand(1, 47),
         ]);
       }
     }

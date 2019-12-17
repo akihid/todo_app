@@ -22,6 +22,7 @@
           </div>
 
           @include('tasks._index')
+          {{ $tasks->appends(Request::except('page'))->links('pagination.default') }}
         </div>
       </div>
     </div>
