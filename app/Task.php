@@ -154,6 +154,6 @@ class Task extends Model
   public function scopeExpiredCount($query)
   {
     $query->where('dead_line', '<', Carbon::today())
-          ->where('title', '!=', '3');
+          ->where('status', '!=', '3');
   }
 }
